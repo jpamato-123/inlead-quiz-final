@@ -10,21 +10,23 @@
    ========================================================================== */
 (function () {
   // --- CONFIG DOS NICHOS (edite números/produtos à vontade) -----------------
+  // Base das imagens hospedadas no próprio repo (via jsDelivr).
+  var IMG = "https://cdn.jsdelivr.net/gh/jpamato-123/inlead-quiz-final@main/img/";
   var NICHOS = {
-    casa:        { nome: "Casa e Decoração",        icone: "🏡", imagem: "", produto: "Umidificador aromatizador LED",  ticket: 139, custo: 42, ads: 35, vendas: 320 },
-    eletronicos: { nome: "Eletrônicos",             icone: "🧮", imagem: "", produto: "Fone Bluetooth TWS",              ticket: 149, custo: 45, ads: 38, vendas: 400 },
-    moda_masc:   { nome: "Moda Masculina",          icone: "👔", imagem: "", produto: "Relógio masculino minimalista",    ticket: 169, custo: 48, ads: 42, vendas: 280 },
-    moda_fem:    { nome: "Moda Feminina",           icone: "👗", imagem: "", produto: "Bolsa transversal feminina",       ticket: 159, custo: 46, ads: 40, vendas: 300 },
-    fitness:     { nome: "Fitness",                 icone: "💪", imagem: "", produto: "Kit faixas de resistência",        ticket: 119, custo: 32, ads: 30, vendas: 380 },
-    automotivo:  { nome: "Automotivo",              icone: "🚙", imagem: "", produto: "Aspirador portátil automotivo",    ticket: 149, custo: 44, ads: 38, vendas: 260 },
-    pet:         { nome: "Pet",                     icone: "🐩", imagem: "", produto: "Fonte de água automática p/ pets", ticket: 139, custo: 40, ads: 34, vendas: 340 },
-    beleza:      { nome: "Beleza e Cuidados",       icone: "✨", imagem: "", produto: "Escova alisadora modeladora",      ticket: 159, custo: 46, ads: 40, vendas: 360 },
-    cozinha:     { nome: "Cozinha e Utensílios",    icone: "🔍", imagem: "", produto: "Processador/fatiador manual",      ticket: 109, custo: 30, ads: 28, vendas: 330 },
-    bebes:       { nome: "Bebês e Infantil",        icone: "👶", imagem: "", produto: "Projetor de luz estrelado",        ticket: 119, custo: 34, ads: 30, vendas: 300 },
-    esportes:    { nome: "Esportes",                icone: "🌐", imagem: "", produto: "Garrafa térmica 2L c/ marcador",   ticket: 99,  custo: 28, ads: 26, vendas: 310 },
-    ferramentas: { nome: "Ferramentas e Construção", icone: "🔧", imagem: "", produto: "Parafusadeira sem fio",          ticket: 179, custo: 55, ads: 45, vendas: 240 },
-    saude:       { nome: "Saúde e Bem-estar",       icone: "🌿", imagem: "", produto: "Massageador cervical",             ticket: 169, custo: 50, ads: 44, vendas: 290 },
-    joias:       { nome: "Joias e Acessórios",      icone: "💎", imagem: "", produto: "Colar/pulseira em aço banhado",    ticket: 129, custo: 32, ads: 34, vendas: 320 }
+    casa:        { nome: "Casa e Decoração",        icone: "🏡", imagem: IMG + "casa.jpg",            produto: "Umidificador aromatizador LED",  ticket: 139, custo: 42, ads: 35, vendas: 320 },
+    eletronicos: { nome: "Eletrônicos",             icone: "🧮", imagem: IMG + "eletronicos.jpg",     produto: "Fone Bluetooth TWS",              ticket: 149, custo: 45, ads: 38, vendas: 400 },
+    moda_masc:   { nome: "Moda Masculina",          icone: "👔", imagem: IMG + "moda-masculina.webp", produto: "Relógio masculino minimalista",    ticket: 169, custo: 48, ads: 42, vendas: 280 },
+    moda_fem:    { nome: "Moda Feminina",           icone: "👗", imagem: IMG + "moda-feminina.jpg",   produto: "Bolsa transversal feminina",       ticket: 159, custo: 46, ads: 40, vendas: 300 },
+    fitness:     { nome: "Fitness",                 icone: "💪", imagem: IMG + "fitness.webp",        produto: "Kit faixas de resistência",        ticket: 119, custo: 32, ads: 30, vendas: 380 },
+    automotivo:  { nome: "Automotivo",              icone: "🚙", imagem: IMG + "automotivo.jpg",      produto: "Aspirador portátil automotivo",    ticket: 149, custo: 44, ads: 38, vendas: 260 },
+    pet:         { nome: "Pet",                     icone: "🐩", imagem: IMG + "pet.jpg",             produto: "Fonte de água automática p/ pets", ticket: 139, custo: 40, ads: 34, vendas: 340 },
+    beleza:      { nome: "Beleza e Cuidados",       icone: "✨", imagem: IMG + "beleza.webp",         produto: "Escova alisadora modeladora",      ticket: 159, custo: 46, ads: 40, vendas: 360 },
+    cozinha:     { nome: "Cozinha e Utensílios",    icone: "🔍", imagem: IMG + "cozinha.jpg",         produto: "Processador/fatiador manual",      ticket: 109, custo: 30, ads: 28, vendas: 330 },
+    bebes:       { nome: "Bebês e Infantil",        icone: "👶", imagem: IMG + "bebes.jpg",           produto: "Projetor de luz estrelado",        ticket: 119, custo: 34, ads: 30, vendas: 300 },
+    esportes:    { nome: "Esportes",                icone: "🌐", imagem: IMG + "esportes.jpg",        produto: "Garrafa térmica 2L c/ marcador",   ticket: 99,  custo: 28, ads: 26, vendas: 310 },
+    ferramentas: { nome: "Ferramentas e Construção", icone: "🔧", imagem: IMG + "ferramentas.webp",   produto: "Parafusadeira sem fio",          ticket: 179, custo: 55, ads: 45, vendas: 240 },
+    saude:       { nome: "Saúde e Bem-estar",       icone: "🌿", imagem: IMG + "saude.webp",          produto: "Massageador cervical",             ticket: 169, custo: 50, ads: 44, vendas: 290 },
+    joias:       { nome: "Joias e Acessórios",      icone: "💎", imagem: IMG + "joias.webp",          produto: "Colar/pulseira em aço banhado",    ticket: 129, custo: 32, ads: 34, vendas: 320 }
   };
 
   // --- >>> PONTO DE INTEGRAÇÃO <<< -----------------------------------------
