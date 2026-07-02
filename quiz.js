@@ -28,8 +28,44 @@
   };
 
   // --- >>> PONTO DE INTEGRAÇÃO <<< -----------------------------------------
-  // Retorna as CHAVES dos nichos escolhidos (ex.: ["pet","fitness"]).
+  // O Inlead guarda as respostas em localStorage["quiz_marker_raw"], e os
+  // nichos escolhidos ficam entre os marcadores [N] ... [/N], separados por "|".
+  // Ex.: "...[N] Casa e Decoração 🏠 | Moda Feminina 👗 [/N]"
+  // Aqui a gente lê esse trecho e mapeia cada nicho pra sua chave em NICHOS.
+
+  // Normaliza um rótulo: minúsculas, sem acento, só letras (tira emoji/espaços).
+  function normalizar(s) {
+    return (s || "").toLowerCase().normalize("NFD")
+      .replace(/[^a-z]/g, "");
+  }
+
+  // Rótulo normalizado do quiz  ->  chave em NICHOS
+  var MAPA_NICHOS = {
+    casaedecoracao: "casa", eletronicos: "eletronicos",
+    modamasculina: "moda_masc", modafeminina: "moda_fem",
+    fitness: "fitness", automotivo: "automotivo", pet: "pet",
+    belezaecuidados: "beleza", cozinhaeutensilios: "cozinha",
+    bebeseinfantil: "bebes", esportes: "esportes",
+    ferramentaseconstrucao: "ferramentas", saudeebemestar: "saude",
+    joiaseacessorios: "joias"
+  };
+
   function getNichosEscolhidos() {
+    // 1) Fonte real: localStorage do Inlead
+    try {
+      var raw = localStorage.getItem("quiz_marker_raw") || "";
+      var bloco = raw.match(/\[N\]([\s\S]*?)\[\/N\]/);
+      if (bloco && bloco[1]) {
+        var chaves = [];
+        bloco[1].split("|").forEach(function (parte) {
+          var chave = MAPA_NICHOS[normalizar(parte)];
+          if (chave && chaves.indexOf(chave) === -1) chaves.push(chave);
+        });
+        if (chaves.length) return chaves;
+      }
+    } catch (e) { /* segue pros fallbacks */ }
+
+    // 2) Fallbacks (teste / manual): URL, variável global, ou exemplo
     var url = new URLSearchParams(window.location.search).get("nichos");
     if (url) return url.split(",").map(function (s) { return s.trim(); });
     if (window.NICHOS_ESCOLHIDOS && window.NICHOS_ESCOLHIDOS.length)
