@@ -92,7 +92,8 @@
 
   function render() {
     var alvo = document.getElementById("il-resultado");
-    if (!alvo) return;
+    if (!alvo || alvo.getAttribute("data-il-done")) return;
+    alvo.setAttribute("data-il-done", "1");
 
     if (!document.getElementById("il-css")) {
       var st = document.createElement("style");
@@ -125,8 +126,22 @@
         + 'Resultados variam conforme execução, operação e sazonalidade.</div>';
   }
 
-  if (document.readyState === "loading")
-    document.addEventListener("DOMContentLoaded", render);
-  else
+  // O Inlead é um app dinâmico (SPA): a tela final só entra no DOM quando o
+  // lead chega nela. Então ficamos "de vigia" e renderizamos assim que o
+  // #il-resultado aparecer — via MutationObserver + um polling de segurança.
+  function start() {
     render();
+    var obs = new MutationObserver(function () { render(); });
+    obs.observe(document.documentElement, { childList: true, subtree: true });
+    var tentativas = 0;
+    var iv = setInterval(function () {
+      render();
+      if (++tentativas > 120) clearInterval(iv); // desiste após ~60s
+    }, 500);
+  }
+
+  if (document.readyState === "loading")
+    document.addEventListener("DOMContentLoaded", start);
+  else
+    start();
 })();
