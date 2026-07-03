@@ -80,12 +80,13 @@
     + '#il-resultado *{box-sizing:border-box;margin:0;padding:0}'
     + '#il-resultado{font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Arial,sans-serif;max-width:560px;margin:0 auto;padding:8px 16px 32px;color:#1a1a2e}'
     + '#il-resultado .il-titulo{text-align:center;font-size:22px;font-weight:800;line-height:1.25;margin-bottom:6px}'
+    + '#il-resultado .il-titulo .hl{color:#ee7a12}'
     + '#il-resultado .il-sub{text-align:center;font-size:14px;color:#6b7280;margin-bottom:22px}'
     + '#il-resultado .il-card{border:1px solid #ececf1;border-radius:16px;padding:18px;margin-bottom:14px;background:#fff;box-shadow:0 4px 16px rgba(20,20,60,.05)}'
     + '#il-resultado .il-card-top{display:flex;align-items:center;gap:14px}'
-    + '#il-resultado .il-icone{flex:0 0 56px;width:56px;height:56px;border-radius:14px;display:flex;align-items:center;justify-content:center;font-size:30px;background:#f4f4fb;overflow:hidden}'
+    + '#il-resultado .il-icone{flex:0 0 56px;width:56px;height:56px;border-radius:14px;display:flex;align-items:center;justify-content:center;font-size:30px;background:#fdf1e6;overflow:hidden}'
     + '#il-resultado .il-icone img{width:100%;height:100%;object-fit:cover}'
-    + '#il-resultado .il-nicho{font-size:13px;font-weight:700;color:#7c5cff;text-transform:uppercase;letter-spacing:.4px}'
+    + '#il-resultado .il-nicho{font-size:13px;font-weight:700;color:#e06a0f;text-transform:uppercase;letter-spacing:.4px}'
     + '#il-resultado .il-produto{font-size:17px;font-weight:800;line-height:1.3;margin-top:2px}'
     + '#il-resultado .il-unit{display:flex;gap:8px;margin-top:16px}'
     + '#il-resultado .il-unit .il-u{flex:1;text-align:center;padding:10px 4px;border-radius:10px;background:#fafafd;border:1px solid #f0f0f5}'
@@ -96,7 +97,7 @@
     + '#il-resultado .il-metrica .rot{font-size:12px;color:#6b7280;margin-bottom:3px}'
     + '#il-resultado .il-metrica .val{font-size:19px;font-weight:800}'
     + '#il-resultado .il-metrica.lucro .val{color:#12b76a}'
-    + '#il-resultado .il-total{border-radius:18px;padding:22px;background:linear-gradient(135deg,#7c5cff 0%,#5b3fe0 100%);color:#fff;text-align:center;margin-top:22px;box-shadow:0 10px 28px rgba(124,92,255,.35)}'
+    + '#il-resultado .il-total{border-radius:18px;padding:22px;background:linear-gradient(135deg,#f7941e 0%,#ea6a0c 100%);color:#fff;text-align:center;margin-top:22px;box-shadow:0 10px 28px rgba(240,120,20,.35)}'
     + '#il-resultado .il-total .rot{font-size:14px;opacity:.9;margin-bottom:6px}'
     + '#il-resultado .il-total .fat{font-size:16px;opacity:.95;margin-bottom:10px}'
     + '#il-resultado .il-total .lucro-total{font-size:38px;font-weight:900;line-height:1}'
@@ -150,7 +151,7 @@
 
     var plural = chaves.length > 1;
     alvo.innerHTML =
-      '<div class="il-titulo">Seu potencial ' + (plural ? 'combinado ' : '') + 'de faturamento 🚀</div>'
+      '<div class="il-titulo">Seu potencial ' + (plural ? 'combinado ' : '') + 'de <span class="hl">faturamento</span> 🚀</div>'
       + '<div class="il-sub">Veja o produto sugerido e a projeção para '
         + (plural ? 'os ' + chaves.length + ' nichos que você escolheu' : 'o nicho que você escolheu') + '</div>'
       + cards
