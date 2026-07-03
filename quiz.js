@@ -78,7 +78,7 @@
   // --- CSS (injetado automaticamente) ---------------------------------------
   var CSS = ''
     + '#il-resultado *{box-sizing:border-box;margin:0;padding:0}'
-    + '#il-resultado{font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Arial,sans-serif;max-width:560px;margin:0 auto;padding:8px 16px 32px;color:#1a1a2e}'
+    + '#il-resultado{font-family:"Inter",-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Arial,sans-serif;max-width:560px;margin:0 auto;padding:8px 16px 32px;color:#1a1a2e}'
     + '#il-resultado .il-titulo{text-align:center;font-size:22px;font-weight:800;line-height:1.25;margin-bottom:6px}'
     + '#il-resultado .il-titulo .hl{color:#ee7a12}'
     + '#il-resultado .il-sub{text-align:center;font-size:14px;color:#6b7280;margin-bottom:22px}'
@@ -220,6 +220,12 @@
     if (!alvo || alvo.getAttribute("data-il-done")) return;
     alvo.setAttribute("data-il-done", "1");
 
+    if (!document.getElementById("il-font")) {
+      var lk = document.createElement("link");
+      lk.id = "il-font"; lk.rel = "stylesheet";
+      lk.href = "https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap";
+      document.head.appendChild(lk);
+    }
     if (!document.getElementById("il-css")) {
       var st = document.createElement("style");
       st.id = "il-css"; st.textContent = CSS;
