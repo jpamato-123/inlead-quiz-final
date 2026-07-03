@@ -97,6 +97,24 @@
     + '#il-resultado .il-metrica .rot{font-size:12px;color:#6b7280;margin-bottom:3px}'
     + '#il-resultado .il-metrica .val{font-size:19px;font-weight:800}'
     + '#il-resultado .il-metrica.lucro .val{color:#12b76a}'
+    + '#il-resultado .il-dash{margin-top:16px;border:1px solid #f1ece4;border-radius:14px;padding:16px;background:linear-gradient(180deg,#fffdfb,#fff7ef)}'
+    + '#il-resultado .il-dash-h{font-size:14px;font-weight:700;margin-bottom:8px}'
+    + '#il-resultado .il-chart{width:100%;height:auto;display:block;overflow:visible}'
+    + '#il-resultado .il-chart .line{stroke-width:3.5;stroke-linecap:round;stroke-linejoin:round;stroke-dasharray:360;stroke-dashoffset:360;animation:ilDraw 1.6s ease forwards}'
+    + '@keyframes ilDraw{to{stroke-dashoffset:0}}'
+    + '#il-resultado .il-chart .area{opacity:0;animation:ilFade .8s ease 1s forwards}'
+    + '@keyframes ilFade{to{opacity:1}}'
+    + '#il-resultado .il-chart .dot{fill:#fff;stroke:#ea6a0c;stroke-width:2.5;opacity:0;transform-box:fill-box;transform-origin:center;animation:ilPop .4s cubic-bezier(.34,1.56,.64,1) forwards}'
+    + '#il-resultado .il-chart .dot.last{fill:#ea6a0c;stroke:#fff}'
+    + '@keyframes ilPop{from{opacity:0;transform:scale(0)}to{opacity:1;transform:scale(1)}}'
+    + '#il-resultado .il-chart .lbl{fill:#9a8b7a;font-size:10px;font-weight:600;text-anchor:middle}'
+    + '#il-resultado .il-dtot{display:flex;gap:10px;margin-top:14px}'
+    + '#il-resultado .il-dtot>div{flex:1;border-radius:12px;padding:12px;text-align:center}'
+    + '#il-resultado .il-dtot .a{background:#fff4e8;border:1px solid #ffe1c2}'
+    + '#il-resultado .il-dtot .b{background:linear-gradient(135deg,#f7941e,#ea6a0c);color:#fff;box-shadow:0 6px 16px rgba(240,120,20,.30)}'
+    + '#il-resultado .il-dtot span{display:block;font-size:11px;opacity:.85;margin-bottom:3px}'
+    + '#il-resultado .il-dtot .a b{color:#e06a0f;font-size:20px}'
+    + '#il-resultado .il-dtot .b b{font-size:20px}'
     + '#il-resultado .il-total{border-radius:18px;padding:22px;background:linear-gradient(135deg,#f7941e 0%,#ea6a0c 100%);color:#fff;text-align:center;margin-top:22px;box-shadow:0 10px 28px rgba(240,120,20,.35)}'
     + '#il-resultado .il-total .rot{font-size:14px;opacity:.9;margin-bottom:6px}'
     + '#il-resultado .il-total .fat{font-size:16px;opacity:.95;margin-bottom:10px}'
@@ -141,6 +159,36 @@
   function lucroMes(n)   { return lucroVenda(n) * n.vendas; }
   function iconeHTML(n)  { return n.imagem ? '<img src="' + n.imagem + '" alt="' + n.produto + '">' : n.icone; }
 
+  // Lucro estimado da 1ª semana (arranque): ~14,6% do mês (rampa de 7 dias).
+  function lucroSemana(n) { return lucroMes(n) * 0.146; }
+
+  // Degradês/brilho do gráfico — injetados UMA vez (IDs compartilhados).
+  var SVG_DEFS = '<svg width="0" height="0" style="position:absolute" aria-hidden="true"><defs>'
+    + '<linearGradient id="ilLineGrad" x1="0" y1="0" x2="1" y2="0"><stop offset="0" stop-color="#f9a94a"/><stop offset="1" stop-color="#e8600a"/></linearGradient>'
+    + '<linearGradient id="ilAreaGrad" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#f7941e" stop-opacity=".30"/><stop offset="1" stop-color="#f7941e" stop-opacity="0"/></linearGradient>'
+    + '<filter id="ilGlow" x="-60%" y="-60%" width="220%" height="220%"><feDropShadow dx="0" dy="0" stdDeviation="3" flood-color="#f7941e" flood-opacity=".75"/></filter>'
+    + '</defs></svg>';
+
+  // Gráfico de linha "arranque 7 dias" (curva/estilo fixo, aprovado no preview).
+  function chartHTML() {
+    var linha = 'M15 84 C22.5 81.8,45 77.3,60 71 C75 64.7,90 48.5,105 46 C120 43.5,135 58.3,150 56 C165 53.7,180 38.8,195 32 C210 25.2,225 15.8,240 15 C255 14.2,277.5 25,285 27';
+    return '<svg class="il-chart" viewBox="0 0 300 134" aria-hidden="true">'
+      + '<path class="area" fill="url(#ilAreaGrad)" d="' + linha + ' L285 118 L15 118 Z"/>'
+      + '<path class="line" fill="none" stroke="url(#ilLineGrad)" d="' + linha + '"/>'
+      + '<circle class="dot" cx="15" cy="84" r="4.5" style="animation-delay:.35s"/>'
+      + '<circle class="dot" cx="60" cy="71" r="4.5" style="animation-delay:.55s"/>'
+      + '<circle class="dot" cx="105" cy="46" r="4.5" style="animation-delay:.75s"/>'
+      + '<circle class="dot" cx="150" cy="56" r="4.5" style="animation-delay:.95s"/>'
+      + '<circle class="dot" cx="195" cy="32" r="4.5" style="animation-delay:1.15s"/>'
+      + '<circle class="dot" cx="240" cy="15" r="4.5" style="animation-delay:1.35s"/>'
+      + '<circle class="dot last" cx="285" cy="27" r="6.5" filter="url(#ilGlow)" style="animation-delay:1.55s"/>'
+      + '<text class="lbl" x="15" y="130">D1</text><text class="lbl" x="60" y="130">D2</text>'
+      + '<text class="lbl" x="105" y="130">D3</text><text class="lbl" x="150" y="130">D4</text>'
+      + '<text class="lbl" x="195" y="130">D5</text><text class="lbl" x="240" y="130">D6</text>'
+      + '<text class="lbl" x="285" y="130">D7</text>'
+      + '</svg>';
+  }
+
   function cardHTML(n) {
     return '<div class="il-card">'
       + '<div class="il-card-top">'
@@ -155,6 +203,14 @@
       + '<div class="il-metricas">'
         + '<div class="il-metrica"><div class="rot">Faturamento/mês</div><div class="val">' + brl(fatMes(n)) + '</div></div>'
         + '<div class="il-metrica lucro"><div class="rot">Lucro/mês</div><div class="val">' + brl(lucroMes(n)) + '</div></div>'
+      + '</div>'
+      + '<div class="il-dash">'
+        + '<div class="il-dash-h">📈 Seu arranque nos primeiros <b>7 dias</b></div>'
+        + chartHTML()
+        + '<div class="il-dtot">'
+          + '<div class="a"><span>Lucro na 1ª semana</span><b>' + brl(lucroSemana(n)) + '</b></div>'
+          + '<div class="b"><span>Potencial no 1º mês</span><b>' + brl(lucroMes(n)) + '</b></div>'
+        + '</div>'
       + '</div>'
     + '</div>';
   }
@@ -181,7 +237,7 @@
 
     var plural = chaves.length > 1;
     var nomeNicho = plural ? "" : NICHOS[chaves[0]].nome;
-    alvo.innerHTML =
+    alvo.innerHTML = SVG_DEFS +
       '<div class="il-titulo">Seu potencial ' + (plural ? 'combinado ' : '') + 'de <span class="hl">faturamento</span> 🚀</div>'
       + '<div class="il-sub">Veja o produto sugerido e a projeção para '
         + (plural ? 'os ' + chaves.length + ' nichos que você escolheu' : 'o nicho que você escolheu') + '</div>'
