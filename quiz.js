@@ -102,6 +102,9 @@
     + '#il-resultado .il-total .fat{font-size:16px;opacity:.95;margin-bottom:10px}'
     + '#il-resultado .il-total .lucro-total{font-size:38px;font-weight:900;line-height:1}'
     + '#il-resultado .il-total .lucro-lbl{font-size:13px;opacity:.9;margin-top:6px}'
+    + '#il-resultado .il-cta{display:block;width:100%;margin-top:18px;padding:16px 14px;border:0;border-radius:14px;background:linear-gradient(135deg,#f7941e,#ea6a0c);color:#fff;font-size:17px;font-weight:800;cursor:pointer;box-shadow:0 8px 20px rgba(240,120,20,.35);transition:filter .15s,transform .15s}'
+    + '#il-resultado .il-cta:hover{filter:brightness(1.06);transform:translateY(-1px)}'
+    + '#il-resultado .il-urg{text-align:center;font-size:13px;color:#1a1a2e;font-weight:600;margin-top:12px}'
     + '#il-resultado .il-disc{font-size:11px;color:#9ca3af;text-align:center;margin-top:16px;line-height:1.5}';
 
   // --- RENDER ---------------------------------------------------------------
@@ -119,6 +122,19 @@
       if (p < 1) requestAnimationFrame(passo); else el.textContent = brl(alvo);
     }
     requestAnimationFrame(passo);
+  }
+
+  // #1 — avança o funil: acha o botão "Continuar/Avançar" do Inlead e clica.
+  function avancarFunil() {
+    var re = /continuar|avan[çc]ar|pr[óo]ximo|quase l[áa]|come[çc]ar/i;
+    var cands = [].slice.call(document.querySelectorAll("button, a, [role=button]"))
+      .filter(function (b) {
+        return b.className.toString().indexOf("il-cta") === -1
+          && re.test((b.innerText || b.textContent || "").trim())
+          && b.offsetParent !== null; // visível
+      });
+    if (cands.length) { cands[cands.length - 1].click(); }
+    else { window.scrollBy({ top: 700, behavior: "smooth" }); } // fallback
   }
   function lucroVenda(n) { return n.ticket - n.custo - n.ads; }
   function fatMes(n)     { return n.ticket * n.vendas; }
@@ -164,6 +180,7 @@
     });
 
     var plural = chaves.length > 1;
+    var nomeNicho = plural ? "" : NICHOS[chaves[0]].nome;
     alvo.innerHTML =
       '<div class="il-titulo">Seu potencial ' + (plural ? 'combinado ' : '') + 'de <span class="hl">faturamento</span> 🚀</div>'
       + '<div class="il-sub">Veja o produto sugerido e a projeção para '
@@ -175,11 +192,20 @@
         + '<div class="lucro-total">' + brl(totalLucro) + '</div>'
         + '<div class="lucro-lbl">de LUCRO estimado por mês</div>'
       + '</div>'
+      + '<button type="button" class="il-cta">'
+        + (plural ? 'Quero começar agora →' : 'Quero começar no nicho ' + nomeNicho + ' →')
+      + '</button>'
+      + '<div class="il-urg">✅ Seu plano ' + (plural ? '' : 'no nicho ' + nomeNicho + ' ')
+        + 'está pronto — continue para garantir sua vaga.</div>'
       + '<div class="il-disc">Projeção estimada com base em médias de mercado (ticket, custo do produto e investimento em anúncios). '
         + 'Resultados variam conforme execução, operação e sazonalidade.</div>';
 
     // #4 — anima o número do lucro total (0 -> valor) ao aparecer.
     animarNumero(alvo.querySelector(".lucro-total"), totalLucro, 1300);
+
+    // #1 — CTA avança o funil.
+    var cta = alvo.querySelector(".il-cta");
+    if (cta) cta.addEventListener("click", avancarFunil);
   }
 
   // O Inlead é um app dinâmico (SPA): a tela final só entra no DOM quando o
