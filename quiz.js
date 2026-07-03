@@ -106,6 +106,20 @@
 
   // --- RENDER ---------------------------------------------------------------
   function brl(n) { return "R$ " + Math.round(n).toLocaleString("pt-BR"); }
+
+  // Anima um número de 0 até o alvo (efeito de "contagem" no lucro total).
+  function animarNumero(el, alvo, dur) {
+    if (!el || !window.requestAnimationFrame) { if (el) el.textContent = brl(alvo); return; }
+    var ini = null;
+    function passo(ts) {
+      if (ini === null) ini = ts;
+      var p = Math.min((ts - ini) / dur, 1);
+      var eased = 1 - Math.pow(1 - p, 3); // easeOutCubic
+      el.textContent = brl(alvo * eased);
+      if (p < 1) requestAnimationFrame(passo); else el.textContent = brl(alvo);
+    }
+    requestAnimationFrame(passo);
+  }
   function lucroVenda(n) { return n.ticket - n.custo - n.ads; }
   function fatMes(n)     { return n.ticket * n.vendas; }
   function lucroMes(n)   { return lucroVenda(n) * n.vendas; }
@@ -163,6 +177,9 @@
       + '</div>'
       + '<div class="il-disc">Projeção estimada com base em médias de mercado (ticket, custo do produto e investimento em anúncios). '
         + 'Resultados variam conforme execução, operação e sazonalidade.</div>';
+
+    // #4 — anima o número do lucro total (0 -> valor) ao aparecer.
+    animarNumero(alvo.querySelector(".lucro-total"), totalLucro, 1300);
   }
 
   // O Inlead é um app dinâmico (SPA): a tela final só entra no DOM quando o
