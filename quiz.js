@@ -92,10 +92,10 @@
     + '#il-resultado .il-unit .il-u{flex:1;text-align:center;padding:10px 4px;border-radius:10px;background:#fafafd;border:1px solid #f0f0f5}'
     + '#il-resultado .il-unit .rot{display:block;font-size:11px;color:#6b7280;margin-bottom:3px;line-height:1.2}'
     + '#il-resultado .il-unit .val{display:block;font-size:15px;font-weight:700}'
-    + '#il-resultado .il-metricas{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-top:10px}'
-    + '#il-resultado .il-metrica{background:#fafafd;border:1px solid #f0f0f5;border-radius:12px;padding:12px}'
-    + '#il-resultado .il-metrica .rot{font-size:12px;color:#6b7280;margin-bottom:3px}'
-    + '#il-resultado .il-metrica .val{font-size:19px;font-weight:800}'
+    + '#il-resultado .il-metricas{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin-top:10px}'
+    + '#il-resultado .il-metrica{background:#fafafd;border:1px solid #f0f0f5;border-radius:12px;padding:10px 8px;text-align:center}'
+    + '#il-resultado .il-metrica .rot{font-size:11px;color:#6b7280;margin-bottom:3px}'
+    + '#il-resultado .il-metrica .val{font-size:16px;font-weight:800}'
     + '#il-resultado .il-metrica.lucro .val{color:#12b76a}'
     + '#il-resultado .il-dash{margin-top:16px;border:1px solid #f1ece4;border-radius:14px;padding:16px;background:linear-gradient(180deg,#fffdfb,#fff7ef)}'
     + '#il-resultado .il-dash-h{font-size:14px;font-weight:700;margin-bottom:8px}'
@@ -147,8 +147,15 @@
   function lucroMes(n)   { return lucroVenda(n) * n.vendas; }
   function iconeHTML(n)  { return n.imagem ? '<img src="' + n.imagem + '" alt="' + n.produto + '">' : n.icone; }
 
-  // Lucro estimado da 1ª semana (arranque): ~14,6% do mês (rampa de 7 dias).
-  function lucroSemana(n) { return lucroMes(n) * 0.146; }
+  // Lucro da 1ª semana: mapeado pra faixa da OFERTA (R$738 a R$1.138 em 7 dias),
+  // proporcional ao lucro mensal do nicho (nicho mais forte ~1.138, mais fraco ~738).
+  var _lucrosMes = Object.keys(NICHOS).map(function (k) { return lucroMes(NICHOS[k]); });
+  var _minLucro = Math.min.apply(null, _lucrosMes);
+  var _maxLucro = Math.max.apply(null, _lucrosMes);
+  function lucroSemana(n) {
+    if (_maxLucro === _minLucro) return 938;
+    return 738 + (lucroMes(n) - _minLucro) / (_maxLucro - _minLucro) * (1138 - 738);
+  }
 
   // Degradês/brilho do gráfico — injetados UMA vez (IDs compartilhados).
   var SVG_DEFS = '<svg width="0" height="0" style="position:absolute" aria-hidden="true"><defs>'
@@ -189,6 +196,7 @@
         + '<div class="il-u"><span class="rot">Gasto em ads</span><span class="val">' + brl(n.ads) + '</span></div>'
       + '</div>'
       + '<div class="il-metricas">'
+        + '<div class="il-metrica"><div class="rot">Vendas/mês</div><div class="val">' + n.vendas + '</div></div>'
         + '<div class="il-metrica"><div class="rot">Faturamento/mês</div><div class="val">' + brl(fatMes(n)) + '</div></div>'
         + '<div class="il-metrica lucro"><div class="rot">Lucro/mês</div><div class="val">' + brl(lucroMes(n)) + '</div></div>'
       + '</div>'
@@ -232,24 +240,24 @@
 
     var plural = chaves.length > 1;
     var nomeNicho = plural ? "" : NICHOS[chaves[0]].nome;
+    var lucroPrimeiraSemana = lucroSemana(NICHOS[chaves[0]]);
     alvo.innerHTML = SVG_DEFS +
       '<div class="il-titulo">Seu potencial ' + (plural ? 'combinado ' : '') + 'de <span class="hl">faturamento</span> 🚀</div>'
       + '<div class="il-sub">Veja o produto sugerido e a projeção para '
         + (plural ? 'os ' + chaves.length + ' nichos que você escolheu' : 'o nicho que você escolheu') + '</div>'
       + cards
       + '<div class="il-total">'
-        + '<div class="rot">Potencial total ' + (plural ? '(' + chaves.length + ' nichos somados)' : '') + '</div>'
-        + '<div class="fat">Faturamento: <b>' + brl(totalFat) + '/mês</b></div>'
-        + '<div class="lucro-total">' + brl(totalLucro) + '</div>'
-        + '<div class="lucro-lbl">de LUCRO estimado por mês</div>'
+        + '<div class="rot">Seu lucro estimado já na 1ª semana</div>'
+        + '<div class="lucro-total">' + brl(lucroPrimeiraSemana) + '</div>'
+        + '<div class="lucro-lbl">e potencial de <b>' + brl(totalLucro) + '/mês</b> ao escalar 🚀</div>'
       + '</div>'
       + '<div class="il-urg">✅ Seu plano ' + (plural ? '' : 'no nicho ' + nomeNicho + ' ')
         + 'está pronto — continue para garantir sua vaga.</div>'
       + '<div class="il-disc">Projeção estimada com base em médias de mercado (ticket, custo do produto e investimento em anúncios). '
         + 'Resultados variam conforme execução, operação e sazonalidade.</div>';
 
-    // #4 — anima o número do lucro total (0 -> valor) ao aparecer.
-    animarNumero(alvo.querySelector(".lucro-total"), totalLucro, 1300);
+    // #4 — anima o número do lucro (0 -> valor da 1ª semana) ao aparecer.
+    animarNumero(alvo.querySelector(".lucro-total"), lucroPrimeiraSemana, 1300);
   }
 
   // O Inlead é um app dinâmico (SPA): a tela final só entra no DOM quando o
