@@ -147,15 +147,8 @@
   function lucroMes(n)   { return lucroVenda(n) * n.vendas; }
   function iconeHTML(n)  { return n.imagem ? '<img src="' + n.imagem + '" alt="' + n.produto + '">' : n.icone; }
 
-  // Lucro da 1ª semana: mapeado pra faixa da OFERTA (R$738 a R$1.138 em 7 dias),
-  // proporcional ao lucro mensal do nicho (nicho mais forte ~1.138, mais fraco ~738).
-  var _lucrosMes = Object.keys(NICHOS).map(function (k) { return lucroMes(NICHOS[k]); });
-  var _minLucro = Math.min.apply(null, _lucrosMes);
-  var _maxLucro = Math.max.apply(null, _lucrosMes);
-  function lucroSemana(n) {
-    if (_maxLucro === _minLucro) return 938;
-    return 738 + (lucroMes(n) - _minLucro) / (_maxLucro - _minLucro) * (1138 - 738);
-  }
+  // Lucro da 1ª semana = valor "final" da faixa da oferta (R$1.138 em 7 dias).
+  function lucroSemana(n) { return 1138; }
 
   // Degradês/brilho do gráfico — injetados UMA vez (IDs compartilhados).
   var SVG_DEFS = '<svg width="0" height="0" style="position:absolute" aria-hidden="true"><defs>'
