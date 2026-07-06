@@ -103,11 +103,14 @@
     + '#il-resultado .il-dash{margin-top:16px;border:1px solid #f1ece4;border-radius:14px;padding:16px;background:linear-gradient(180deg,#fffdfb,#fff7ef)}'
     + '#il-resultado .il-dash-h{font-size:14px;font-weight:700;margin-bottom:8px}'
     + '#il-resultado .il-chart{width:100%;height:auto;display:block;overflow:visible}'
-    + '#il-resultado .il-chart .line{stroke-width:3.5;stroke-linecap:round;stroke-linejoin:round;stroke-dasharray:360;stroke-dashoffset:360;animation:ilDraw 1.6s ease forwards}'
+    + '#il-resultado .il-chart .line{stroke-width:3.5;stroke-linecap:round;stroke-linejoin:round;stroke-dasharray:360;stroke-dashoffset:360}'
+    + '#il-resultado.il-go .il-chart .line{animation:ilDraw 1.6s ease forwards}'
     + '@keyframes ilDraw{to{stroke-dashoffset:0}}'
-    + '#il-resultado .il-chart .area{opacity:0;animation:ilFade .8s ease 1s forwards}'
+    + '#il-resultado .il-chart .area{opacity:0}'
+    + '#il-resultado.il-go .il-chart .area{animation:ilFade .8s ease 1s forwards}'
     + '@keyframes ilFade{to{opacity:1}}'
-    + '#il-resultado .il-chart .dot{fill:#fff;stroke:#ea6a0c;stroke-width:2.5;opacity:0;transform-box:fill-box;transform-origin:center;animation:ilPop .4s cubic-bezier(.34,1.56,.64,1) forwards}'
+    + '#il-resultado .il-chart .dot{fill:#fff;stroke:#ea6a0c;stroke-width:2.5;opacity:0;transform-box:fill-box;transform-origin:center}'
+    + '#il-resultado.il-go .il-chart .dot{animation:ilPop .4s cubic-bezier(.34,1.56,.64,1) forwards}'
     + '#il-resultado .il-chart .dot.last{fill:#ea6a0c;stroke:#fff}'
     + '@keyframes ilPop{from{opacity:0;transform:scale(0)}to{opacity:1;transform:scale(1)}}'
     + '#il-resultado .il-chart .lbl{fill:#9a8b7a;font-size:10px;font-weight:600;text-anchor:middle}'
@@ -245,7 +248,7 @@
       + cards
       + '<div class="il-total">'
         + '<div class="rot">Seu lucro estimado já na 1ª semana</div>'
-        + '<div class="lucro-total">' + brl(lucroPrimeiraSemana) + '</div>'
+        + '<div class="lucro-total">' + brl(0) + '</div>'
         + '<div class="lucro-lbl">e potencial de <b>' + brl(totalLucro) + '/mês</b> ao escalar 🚀</div>'
       + '</div>'
       + '<div class="il-urg">✅ Seu plano ' + (plural ? '' : 'no nicho ' + nomeNicho + ' ')
@@ -253,8 +256,24 @@
       + '<div class="il-disc">Projeção estimada com base em médias de mercado (ticket, custo do produto e investimento em anúncios). '
         + 'Resultados variam conforme execução, operação e sazonalidade.</div>';
 
-    // #4 — anima o número do lucro (0 -> valor da 1ª semana) ao aparecer.
-    animarNumero(alvo.querySelector(".lucro-total"), lucroPrimeiraSemana, 1300);
+    // Dispara as animações (gráfico subindo + contagem do lucro) só quando a
+    // tela fica VISÍVEL — senão elas terminam antes do lead ver.
+    function dispararAnimacoes() {
+      if (alvo.classList.contains("il-go")) return;
+      alvo.classList.add("il-go"); // inicia as animações CSS do gráfico
+      animarNumero(alvo.querySelector(".lucro-total"), lucroPrimeiraSemana, 1300);
+    }
+    if (window.IntersectionObserver) {
+      var io = new IntersectionObserver(function (entries) {
+        entries.forEach(function (e) {
+          if (e.isIntersecting) { dispararAnimacoes(); io.disconnect(); }
+        });
+      }, { threshold: 0.2 });
+      io.observe(alvo);
+      setTimeout(dispararAnimacoes, 4000); // rede de segurança
+    } else {
+      dispararAnimacoes();
+    }
   }
 
   // O Inlead é um app dinâmico (SPA): a tela final só entra no DOM quando o
