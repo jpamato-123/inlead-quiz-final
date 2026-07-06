@@ -12,21 +12,23 @@
   // --- CONFIG DOS NICHOS (edite números/produtos à vontade) -----------------
   // Base das imagens hospedadas no próprio repo (via jsDelivr).
   var IMG = "https://jpamato-123.github.io/inlead-quiz-final/img/";
+  // Números calibrados p/ ~R$10.000 de lucro/mês (mensagem interna) + margem ~33%
+  // (contexto "produto validado"). 1ª semana fixa em R$1.000 (ver lucroSemana).
   var NICHOS = {
-    casa:        { nome: "Casa e Decoração",        icone: "🏡", imagem: IMG + "casa.jpg",            produto: "Umidificador aromatizador LED",  ticket: 139, custo: 42, ads: 35, vendas: 320 },
-    eletronicos: { nome: "Eletrônicos",             icone: "🧮", imagem: IMG + "eletronicos.jpg",     produto: "Fone Bluetooth TWS",              ticket: 149, custo: 45, ads: 38, vendas: 400 },
-    moda_masc:   { nome: "Moda Masculina",          icone: "👔", imagem: IMG + "moda-masculina.webp", produto: "Relógio masculino minimalista",    ticket: 169, custo: 48, ads: 42, vendas: 280 },
-    moda_fem:    { nome: "Moda Feminina",           icone: "👗", imagem: IMG + "moda-feminina.jpg",   produto: "Bolsa transversal feminina",       ticket: 159, custo: 46, ads: 40, vendas: 300 },
-    fitness:     { nome: "Fitness",                 icone: "💪", imagem: IMG + "fitness.webp",        produto: "Kit faixas de resistência",        ticket: 119, custo: 32, ads: 30, vendas: 380 },
-    automotivo:  { nome: "Automotivo",              icone: "🚙", imagem: IMG + "automotivo.jpg",      produto: "Aspirador portátil automotivo",    ticket: 149, custo: 44, ads: 38, vendas: 260 },
-    pet:         { nome: "Pet",                     icone: "🐩", imagem: IMG + "pet.jpg",             produto: "Fonte de água automática p/ pets", ticket: 139, custo: 40, ads: 34, vendas: 340 },
-    beleza:      { nome: "Beleza e Cuidados",       icone: "✨", imagem: IMG + "beleza.webp",         produto: "Escova alisadora modeladora",      ticket: 159, custo: 46, ads: 40, vendas: 360 },
-    cozinha:     { nome: "Cozinha e Utensílios",    icone: "🔍", imagem: IMG + "cozinha.jpg",         produto: "Processador/fatiador manual",      ticket: 109, custo: 30, ads: 28, vendas: 330 },
-    bebes:       { nome: "Bebês e Infantil",        icone: "👶", imagem: IMG + "bebes.jpg",           produto: "Projetor de luz estrelado",        ticket: 119, custo: 34, ads: 30, vendas: 300 },
-    esportes:    { nome: "Esportes",                icone: "🌐", imagem: IMG + "esportes.jpg",        produto: "Garrafa térmica 2L c/ marcador",   ticket: 99,  custo: 28, ads: 26, vendas: 310 },
-    ferramentas: { nome: "Ferramentas e Construção", icone: "🔧", imagem: IMG + "ferramentas.webp",   produto: "Parafusadeira sem fio",          ticket: 179, custo: 55, ads: 45, vendas: 240 },
-    saude:       { nome: "Saúde e Bem-estar",       icone: "🌿", imagem: IMG + "saude.webp",          produto: "Massageador cervical",             ticket: 169, custo: 50, ads: 44, vendas: 290 },
-    joias:       { nome: "Joias e Acessórios",      icone: "💎", imagem: IMG + "joias.webp",          produto: "Colar/pulseira em aço banhado",    ticket: 129, custo: 32, ads: 34, vendas: 320 }
+    casa:        { nome: "Casa e Decoração",        icone: "🏡", imagem: IMG + "casa.jpg",            produto: "Umidificador aromatizador LED",  ticket: 160, custo: 53, ads: 53, vendas: 185 },
+    eletronicos: { nome: "Eletrônicos",             icone: "🧮", imagem: IMG + "eletronicos.jpg",     produto: "Fone Bluetooth TWS",              ticket: 220, custo: 73, ads: 73, vendas: 135 },
+    moda_masc:   { nome: "Moda Masculina",          icone: "👔", imagem: IMG + "moda-masculina.webp", produto: "Relógio masculino minimalista",    ticket: 150, custo: 50, ads: 50, vendas: 200 },
+    moda_fem:    { nome: "Moda Feminina",           icone: "👗", imagem: IMG + "moda-feminina.jpg",   produto: "Bolsa transversal feminina",       ticket: 140, custo: 46, ads: 46, vendas: 208 },
+    fitness:     { nome: "Fitness",                 icone: "💪", imagem: IMG + "fitness.webp",        produto: "Kit faixas de resistência",        ticket: 130, custo: 43, ads: 43, vendas: 227 },
+    automotivo:  { nome: "Automotivo",              icone: "🚙", imagem: IMG + "automotivo.jpg",      produto: "Aspirador portátil automotivo",    ticket: 150, custo: 50, ads: 50, vendas: 200 },
+    pet:         { nome: "Pet",                     icone: "🐩", imagem: IMG + "pet.jpg",             produto: "Fonte de água automática p/ pets", ticket: 140, custo: 46, ads: 46, vendas: 208 },
+    beleza:      { nome: "Beleza e Cuidados",       icone: "✨", imagem: IMG + "beleza.webp",         produto: "Escova alisadora modeladora",      ticket: 140, custo: 46, ads: 46, vendas: 208 },
+    cozinha:     { nome: "Cozinha e Utensílios",    icone: "🔍", imagem: IMG + "cozinha.jpg",         produto: "Processador/fatiador manual",      ticket: 120, custo: 40, ads: 40, vendas: 250 },
+    bebes:       { nome: "Bebês e Infantil",        icone: "👶", imagem: IMG + "bebes.jpg",           produto: "Projetor de luz estrelado",        ticket: 130, custo: 43, ads: 43, vendas: 227 },
+    esportes:    { nome: "Esportes",                icone: "🌐", imagem: IMG + "esportes.jpg",        produto: "Garrafa térmica 2L c/ marcador",   ticket: 120, custo: 40, ads: 40, vendas: 250 },
+    ferramentas: { nome: "Ferramentas e Construção", icone: "🔧", imagem: IMG + "ferramentas.webp",   produto: "Parafusadeira sem fio",          ticket: 180, custo: 59, ads: 59, vendas: 161 },
+    saude:       { nome: "Saúde e Bem-estar",       icone: "🌿", imagem: IMG + "saude.webp",          produto: "Massageador cervical",             ticket: 160, custo: 53, ads: 53, vendas: 185 },
+    joias:       { nome: "Joias e Acessórios",      icone: "💎", imagem: IMG + "joias.webp",          produto: "Colar/pulseira em aço banhado",    ticket: 190, custo: 63, ads: 63, vendas: 156 }
   };
 
   // --- >>> PONTO DE INTEGRAÇÃO <<< -----------------------------------------
@@ -147,8 +149,8 @@
   function lucroMes(n)   { return lucroVenda(n) * n.vendas; }
   function iconeHTML(n)  { return n.imagem ? '<img src="' + n.imagem + '" alt="' + n.produto + '">' : n.icone; }
 
-  // Lucro da 1ª semana = valor "final" da faixa da oferta (R$1.138 em 7 dias).
-  function lucroSemana(n) { return 1138; }
+  // Lucro da 1ª semana = valor redondo/crível dentro da faixa da oferta (R$738–1.138).
+  function lucroSemana(n) { return 1000; }
 
   // Degradês/brilho do gráfico — injetados UMA vez (IDs compartilhados).
   var SVG_DEFS = '<svg width="0" height="0" style="position:absolute" aria-hidden="true"><defs>'
