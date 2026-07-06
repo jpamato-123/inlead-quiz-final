@@ -11,7 +11,7 @@
 (function () {
   // --- CONFIG DOS NICHOS (edite números/produtos à vontade) -----------------
   // Base das imagens hospedadas no próprio repo (via jsDelivr).
-  var IMG = "https://cdn.jsdelivr.net/gh/jpamato-123/inlead-quiz-final@main/img/";
+  var IMG = "https://jpamato-123.github.io/inlead-quiz-final/img/";
   var NICHOS = {
     casa:        { nome: "Casa e Decoração",        icone: "🏡", imagem: IMG + "casa.jpg",            produto: "Umidificador aromatizador LED",  ticket: 139, custo: 42, ads: 35, vendas: 320 },
     eletronicos: { nome: "Eletrônicos",             icone: "🧮", imagem: IMG + "eletronicos.jpg",     produto: "Fone Bluetooth TWS",              ticket: 149, custo: 45, ads: 38, vendas: 400 },
